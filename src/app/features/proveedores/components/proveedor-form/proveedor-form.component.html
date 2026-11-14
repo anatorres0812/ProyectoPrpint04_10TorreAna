@@ -1,0 +1,212 @@
+<div class="modal-overlay" (click)="cerrar()">
+
+  <section
+    class="form-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="form-title"
+    (click)="$event.stopPropagation()">
+
+    <header class="form-header">
+
+      <div class="form-brand">
+        <div class="form-brand-icon">T</div>
+
+        <div>
+          <span>TORRESANA</span>
+          <small>GESTIÓN EMPRESARIAL</small>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="close-button"
+        (click)="cerrar()"
+        aria-label="Cerrar formulario">
+        ×
+      </button>
+
+    </header>
+
+    <div class="form-title">
+
+      <span class="form-eyebrow">
+        {{ esEdicion ? 'ACTUALIZACIÓN DE DATOS' : 'NUEVO REGISTRO' }}
+      </span>
+
+      <h2 id="form-title">
+        {{ esEdicion ? 'Editar proveedor' : 'Registrar proveedor' }}
+      </h2>
+
+      <p>
+        Completa los datos para administrar el proveedor.
+      </p>
+
+    </div>
+
+    <form [formGroup]="formulario" (ngSubmit)="enviar()" novalidate>
+
+      <div class="form-grid">
+
+        <!-- EMPRESA -->
+
+        <div class="field-group full-width">
+
+          <label for="empresa">Nombre de la empresa</label>
+
+          <input
+            id="empresa"
+            type="text"
+            formControlName="empresa"
+            placeholder="Ej. Comercial del Norte S.A.C.">
+
+          <small class="error-message" *ngIf="tieneError('empresa', 'required')">
+            El nombre de la empresa es obligatorio.
+          </small>
+
+          <small class="error-message" *ngIf="tieneError('empresa', 'minlength')">
+            Debe contener al menos 3 caracteres.
+          </small>
+
+          <small class="error-message" *ngIf="tieneError('empresa', 'soloEspacios')">
+            No puede contener solamente espacios.
+          </small>
+
+        </div>
+
+        <!-- CONTACTO -->
+
+        <div class="field-group">
+
+          <label for="contacto">Nombre del contacto</label>
+
+          <input
+            id="contacto"
+            type="text"
+            formControlName="contacto"
+            placeholder="Ej. Ana Torres">
+
+          <small class="error-message" *ngIf="tieneError('contacto', 'required')">
+            El nombre del contacto es obligatorio.
+          </small>
+
+          <small class="error-message" *ngIf="tieneError('contacto', 'nombreInvalido')">
+            Escribe nombre y apellido con iniciales mayúsculas.
+          </small>
+
+        </div>
+
+        <!-- TELÉFONO -->
+
+        <div class="field-group">
+
+          <label for="telefono">Teléfono</label>
+
+          <input
+            id="telefono"
+            type="tel"
+            inputmode="numeric"
+            maxlength="9"
+            formControlName="telefono"
+            placeholder="999999999"
+            (input)="filtrarDigitos($event, 'telefono')">
+
+          <small class="error-message" *ngIf="tieneError('telefono', 'required')">
+            El teléfono es obligatorio.
+          </small>
+
+          <small class="error-message" *ngIf="tieneError('telefono', 'telefonoInvalido')">
+            El teléfono debe tener exactamente 9 dígitos.
+          </small>
+
+        </div>
+
+        <!-- CORREO -->
+
+        <div class="field-group">
+
+          <label for="correo">Correo electrónico</label>
+
+          <input
+            id="correo"
+            type="email"
+            formControlName="correo"
+            placeholder="contacto@empresa.com">
+
+          <small class="error-message" *ngIf="tieneError('correo', 'required')">
+            El correo es obligatorio.
+          </small>
+
+          <small class="error-message" *ngIf="tieneError('correo', 'correoInvalido')">
+            El correo debe terminar en .com o .edu.pe.
+          </small>
+
+        </div>
+
+        <!-- RUC -->
+
+        <div class="field-group">
+
+          <label for="ruc">RUC</label>
+
+          <input
+            id="ruc"
+            type="text"
+            inputmode="numeric"
+            maxlength="11"
+            formControlName="ruc"
+            placeholder="20123456789"
+            (input)="filtrarDigitos($event, 'ruc')">
+
+          <small class="error-message" *ngIf="tieneError('ruc', 'required')">
+            El RUC es obligatorio.
+          </small>
+
+          <small class="error-message" *ngIf="tieneError('ruc', 'rucInvalido')">
+            Debe tener 11 dígitos y comenzar con 10 o 20.
+          </small>
+
+        </div>
+
+        <!-- ESTADO -->
+
+        <div class="field-group">
+
+          <label for="estado">Estado del proveedor</label>
+
+          <select id="estado" formControlName="estado">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+
+        </div>
+
+      </div>
+
+      <div class="form-information">
+        <span>i</span>
+        Verifica la información antes de guardar el registro.
+      </div>
+
+      <footer class="form-actions">
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="cerrar()">
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="save-button">
+          {{ esEdicion ? 'Guardar cambios' : 'Registrar proveedor' }}
+        </button>
+
+      </footer>
+
+    </form>
+
+  </section>
+
+</div>

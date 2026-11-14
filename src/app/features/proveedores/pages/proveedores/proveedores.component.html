@@ -1,0 +1,568 @@
+<div class="dashboard">
+
+  <header class="top-navigation">
+
+    <a class="nav-brand" (click)="navegar('inicio')">
+      <div class="brand-icon">T</div>
+
+      <div class="brand-text">
+        <strong>TORRESANA</strong>
+        <span>FUTURE BUSINESS</span>
+      </div>
+    </a>
+
+    <button
+      type="button"
+      class="mobile-menu-button"
+      (click)="menuMovilAbierto = !menuMovilAbierto"
+      [attr.aria-expanded]="menuMovilAbierto"
+      aria-label="Abrir menú">
+      {{ menuMovilAbierto ? '✕' : '☰' }}
+    </button>
+
+    <nav
+      class="nav-links"
+      [class.mobile-open]="menuMovilAbierto">
+
+      <button
+        type="button"
+        class="nav-link"
+        [class.nav-active]="seccionActiva === 'inicio'"
+        (click)="navegar('inicio')">
+        <span>⌂</span> Inicio
+      </button>
+
+      <button
+        type="button"
+        class="nav-link"
+        [class.nav-active]="seccionActiva === 'proveedores'"
+        (click)="navegar('proveedores')">
+        <span>♙</span> Proveedores
+      </button>
+
+      <button
+        type="button"
+        class="nav-link"
+        [class.nav-active]="seccionActiva === 'estadisticas'"
+        (click)="navegar('estadisticas')">
+        <span>▥</span> Estadísticas
+      </button>
+
+      <button
+        type="button"
+        class="nav-register"
+        (click)="abrirNuevo()">
+        <span>+</span> Nuevo proveedor
+      </button>
+
+    </nav>
+
+    <div class="nav-user">
+      <span class="online-dot"></span>
+      <span class="user-label">Administradora</span>
+      <div class="top-avatar">AT</div>
+    </div>
+
+  </header>
+
+  <main class="main-content">
+
+    <!-- INICIO -->
+
+    <section class="page-heading" id="inicio">
+
+      <div>
+        <span class="breadcrumb">
+          TORRESANA / WORKSPACE / DASHBOARD
+        </span>
+
+        <h1>Panel de control</h1>
+
+        <p>
+          Bienvenida al centro de gestión empresarial.
+        </p>
+      </div>
+
+      <div class="date-indicator">
+        <span class="date-dot"></span>
+        Sistema operativo
+      </div>
+
+    </section>
+
+    <!-- BANNER -->
+
+    <section class="hero">
+
+      <div class="hero-grid"></div>
+
+      <div class="hero-content">
+
+        <span class="hero-label">
+          <span class="hero-label-dot"></span>
+          FUTURE BUSINESS MANAGEMENT
+        </span>
+
+        <h2>
+          Gestiona tu negocio.<br>
+          <span>Conecta tus proveedores.</span>
+        </h2>
+
+        <p>
+          Administra la información de tus socios comerciales
+          desde una plataforma moderna, organizada y eficiente.
+        </p>
+
+        <button
+          type="button"
+          class="hero-button"
+          (click)="abrirNuevo()">
+          <span>+</span>
+          Registrar proveedor
+          <span class="button-arrow">→</span>
+        </button>
+
+      </div>
+
+      <div class="hero-art">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="orbit orbit-three"></div>
+        <div class="orbit-core">T</div>
+        <div class="orbit-dot"></div>
+      </div>
+
+      <div class="hero-decoration"></div>
+
+    </section>
+
+    <!-- ESTADÍSTICAS PRINCIPALES -->
+
+    <section class="stats-grid">
+
+      <article class="stat-card card-total">
+
+        <div class="stat-top">
+          <div class="stat-icon">♙</div>
+          <span class="stat-caption">REGISTROS</span>
+        </div>
+
+        <h2>{{ proveedores.length }}</h2>
+        <p>Total de proveedores</p>
+        <div class="stat-line"></div>
+
+      </article>
+
+      <article class="stat-card card-active">
+
+        <div class="stat-top">
+          <div class="stat-icon">✓</div>
+          <span class="stat-caption">OPERATIVOS</span>
+        </div>
+
+        <h2>{{ contarActivos }}</h2>
+        <p>Proveedores activos</p>
+        <div class="stat-line"></div>
+
+      </article>
+
+      <article class="stat-card card-inactive">
+
+        <div class="stat-top">
+          <div class="stat-icon">◷</div>
+          <span class="stat-caption">INACTIVOS</span>
+        </div>
+
+        <h2>{{ contarInactivos }}</h2>
+        <p>Proveedores inactivos</p>
+        <div class="stat-line"></div>
+
+      </article>
+
+      <article class="stat-card card-results">
+
+        <div class="stat-top">
+          <div class="stat-icon">⌕</div>
+          <span class="stat-caption">CONSULTA</span>
+        </div>
+
+        <h2>{{ proveedoresFiltrados.length }}</h2>
+        <p>Resultados encontrados</p>
+        <div class="stat-line"></div>
+
+      </article>
+
+    </section>
+
+    <!-- ESTADÍSTICAS Y GRÁFICOS -->
+
+    <section class="analytics-grid" id="estadisticas">
+
+      <article class="analytics-card">
+
+        <div class="card-heading">
+
+          <div>
+            <span class="section-eyebrow">ANÁLISIS DE DATOS</span>
+            <h2>Estado de proveedores</h2>
+          </div>
+
+          <span class="live-chip">
+            <span></span> EN VIVO
+          </span>
+
+        </div>
+
+        <div class="chart-summary">
+
+          <div class="chart-total">
+            <strong>{{ proveedores.length }}</strong>
+            <span>Registros totales</span>
+          </div>
+
+          <div class="chart-legend">
+            <span>
+              <i class="legend-active"></i> Activos
+            </span>
+
+            <span>
+              <i class="legend-inactive"></i> Inactivos
+            </span>
+          </div>
+
+        </div>
+
+        <div class="chart-bars">
+
+          <div class="bar-row">
+
+            <div class="bar-label">
+              <span>Proveedores activos</span>
+              <strong>{{ porcentajeActivos }}%</strong>
+            </div>
+
+            <div class="bar-track">
+              <div
+                class="bar-fill active-fill"
+                [style.width.%]="porcentajeActivos">
+              </div>
+            </div>
+
+            <span class="bar-count">
+              {{ contarActivos }} proveedores
+            </span>
+
+          </div>
+
+          <div class="bar-row">
+
+            <div class="bar-label">
+              <span>Proveedores inactivos</span>
+              <strong>{{ porcentajeInactivos }}%</strong>
+            </div>
+
+            <div class="bar-track">
+              <div
+                class="bar-fill inactive-fill"
+                [style.width.%]="porcentajeInactivos">
+              </div>
+            </div>
+
+            <span class="bar-count">
+              {{ contarInactivos }} proveedores
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="chart-note">
+          <span class="note-pulse"></span>
+          Datos calculados automáticamente desde los registros.
+        </div>
+
+      </article>
+
+      <article class="insight-card">
+
+        <span class="section-eyebrow">RESUMEN GENERAL</span>
+
+        <h2>Actividad empresarial</h2>
+
+        <div
+          class="insight-ring"
+          [style.background]="
+            'conic-gradient(#16c8ed 0% ' + porcentajeActivos +
+            '%, #e8eef5 ' + porcentajeActivos + '% 100%)'
+          ">
+
+          <div class="ring-inner">
+            <strong>{{ porcentajeActivos }}%</strong>
+            <span>ACTIVOS</span>
+          </div>
+
+        </div>
+
+        <p>
+          Porcentaje de proveedores que se encuentran activos
+          actualmente.
+        </p>
+
+        <div class="insight-footer">
+          <span>Indicadores actualizados</span>
+          <span class="insight-dot"></span>
+        </div>
+
+      </article>
+
+    </section>
+
+    <!-- DIRECTORIO -->
+
+    <section class="directory-card" id="proveedores">
+
+      <div class="directory-heading">
+
+        <div>
+          <span class="section-eyebrow">DIRECTORIO EMPRESARIAL</span>
+          <h2>Gestión de proveedores</h2>
+          <p>
+            Consulta, registra y administra tus contactos comerciales.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="primary-button"
+          (click)="abrirNuevo()">
+          <span>+</span> Nuevo proveedor
+        </button>
+
+      </div>
+
+      <!-- BÚSQUEDA Y FILTROS -->
+
+      <div class="filters">
+
+        <div class="search-box">
+
+          <span class="search-icon">⌕</span>
+
+          <input
+            type="search"
+            placeholder="Buscar empresa, contacto, RUC, teléfono o correo..."
+            [(ngModel)]="busqueda"
+            (ngModelChange)="filtrarProveedores()">
+
+          <button
+            *ngIf="busqueda"
+            type="button"
+            class="clear-search"
+            (click)="limpiarBusqueda()"
+            aria-label="Limpiar búsqueda">
+            ×
+          </button>
+
+        </div>
+
+        <select
+          class="status-filter"
+          [(ngModel)]="filtroEstado"
+          (ngModelChange)="filtrarProveedores()">
+
+          <option value="Todos">Todos los estados</option>
+          <option value="Activo">Activos</option>
+          <option value="Inactivo">Inactivos</option>
+
+        </select>
+
+      </div>
+
+      <!-- TABLA -->
+
+      <div class="table-container">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>EMPRESA / CONTACTO</th>
+              <th>RUC</th>
+              <th>TELÉFONO</th>
+              <th>CORREO ELECTRÓNICO</th>
+              <th>ESTADO</th>
+              <th>ACCIONES</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr
+              *ngFor="let proveedor of proveedoresFiltrados; trackBy: trackById">
+
+              <td>
+                <div class="company-cell">
+
+                  <div class="company-avatar">
+                    {{ proveedor.empresa.charAt(0).toUpperCase() }}
+                  </div>
+
+                  <div>
+                    <strong>{{ proveedor.empresa }}</strong>
+                    <span>{{ proveedor.contacto }}</span>
+                  </div>
+
+                </div>
+              </td>
+
+              <td class="data-text">{{ proveedor.ruc }}</td>
+
+              <td class="data-text">{{ proveedor.telefono }}</td>
+
+              <td class="email-text">{{ proveedor.correo }}</td>
+
+              <td>
+
+                <button
+                  type="button"
+                  class="status-badge"
+                  [class.active-status]="proveedor.estado === 'Activo'"
+                  [class.inactive-status]="proveedor.estado === 'Inactivo'"
+                  (click)="cambiarEstado(proveedor)"
+                  title="Haz clic para cambiar el estado">
+
+                  <span></span>
+                  {{ proveedor.estado }}
+
+                </button>
+
+              </td>
+
+              <td>
+
+                <div class="actions">
+
+                  <button
+                    type="button"
+                    class="action-btn edit"
+                    title="Editar proveedor"
+                    aria-label="Editar proveedor"
+                    (click)="editar(proveedor)">
+                    ✎
+                  </button>
+
+                  <button
+                    type="button"
+                    class="action-btn delete"
+                    title="Eliminar proveedor"
+                    aria-label="Eliminar proveedor"
+                    (click)="eliminar(proveedor)">
+                    ×
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+            <tr *ngIf="proveedoresFiltrados.length === 0">
+
+              <td colspan="6">
+
+                <div class="empty-state">
+
+                  <div class="empty-icon">⌕</div>
+
+                  <h3>No se encontraron proveedores</h3>
+
+                  <p>
+                    Prueba otra búsqueda o registra un nuevo proveedor.
+                  </p>
+
+                  <button
+                    type="button"
+                    class="empty-button"
+                    (click)="limpiarBusqueda()">
+                    Limpiar filtros
+                  </button>
+
+                  <button
+                    type="button"
+                    class="empty-button"
+                    (click)="abrirNuevo()">
+                    Registrar proveedor
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <footer class="table-footer">
+
+        <span>
+          Mostrando {{ proveedoresFiltrados.length }}
+          de {{ proveedores.length }} proveedores
+        </span>
+
+        <span class="secure-label">
+          <i></i> Almacenamiento local activo
+        </span>
+
+      </footer>
+
+    </section>
+
+    <footer class="page-footer">
+      <span>© 2026 TORRESANA · FUTURE BUSINESS</span>
+      <span>DESARROLLADO CON ANGULAR</span>
+    </footer>
+
+  </main>
+
+  <!-- MENSAJE DE CONFIRMACIÓN -->
+
+  <div class="toast" *ngIf="notificacion">
+    <span class="toast-check">✓</span>
+    {{ notificacion }}
+  </div>
+
+  <!-- FORMULARIO -->
+
+  <app-proveedor-form
+    *ngIf="mostrarFormulario"
+    [proveedor]="proveedorSeleccionado"
+    (guardar)="guardar($event)"
+    (cancelar)="cerrarFormulario()">
+  </app-proveedor-form>
+
+</div>
+
+<!-- ASISTENTE VIRTUAL MICHI -->
+
+<div class="michi-assistant">
+
+  <app-chatbot
+    *ngIf="chatbotAbierto"
+    [proveedores]="proveedores"
+    (cerrar)="cerrarChatbot()">
+  </app-chatbot>
+
+  <button
+    type="button"
+    class="michi-launcher"
+    (click)="alternarChatbot()"
+    aria-label="Abrir asistente Michi"
+    title="Hablar con Michi">
+    🐱
+  </button>
+
+</div>

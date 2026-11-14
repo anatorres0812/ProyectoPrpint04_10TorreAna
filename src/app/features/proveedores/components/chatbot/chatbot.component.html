@@ -1,0 +1,106 @@
+<div class="chatbot-window" role="dialog" aria-label="Conversación con Michi">
+
+  <header class="chat-header">
+    <div class="chat-brand">
+      <div class="bot-avatar">🐱</div>
+
+      <div>
+        <h3>MICHI</h3>
+        <span class="online-status">
+          <span class="online-dot"></span>
+          Asistente virtual
+        </span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button
+        type="button"
+        class="header-button"
+        title="Limpiar conversación"
+        aria-label="Limpiar conversación"
+        (click)="limpiarConversacion()">
+        ↻
+      </button>
+
+      <button
+        type="button"
+        class="header-button"
+        title="Cerrar chat"
+        aria-label="Cerrar chat"
+        (click)="cerrar.emit()">
+        ×
+      </button>
+    </div>
+  </header>
+
+  <main class="chat-messages" aria-live="polite">
+    <div
+      *ngFor="let mensaje of mensajes"
+      class="message-row"
+      [class.user-row]="mensaje.tipo === 'usuario'">
+
+      <div
+        class="message-avatar"
+        *ngIf="mensaje.tipo === 'asistente'">
+        🐱
+      </div>
+
+      <div
+        class="message-bubble"
+        [class.user-message]="mensaje.tipo === 'usuario'">
+
+        <p>{{ mensaje.texto }}</p>
+
+        <span class="message-time">
+          {{ mensaje.hora }}
+        </span>
+      </div>
+    </div>
+
+    <div class="typing-row" *ngIf="escribiendo">
+      <div class="message-avatar">🐱</div>
+
+      <div class="typing-indicator">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </main>
+
+  <section class="suggestions" *ngIf="mensajes.length === 1">
+    <span class="suggestions-title">PRUEBA PREGUNTARME</span>
+
+    <button
+      type="button"
+      *ngFor="let sugerencia of sugerencias"
+      (click)="usarSugerencia(sugerencia)">
+      {{ sugerencia }}
+      <span>→</span>
+    </button>
+  </section>
+
+  <form class="chat-input-area" (ngSubmit)="enviar()">
+    <input
+      type="text"
+      name="consulta"
+      [(ngModel)]="consulta"
+      placeholder="Escribe un mensaje..."
+      autocomplete="off"
+      [disabled]="escribiendo"
+      aria-label="Escribe tu mensaje">
+
+    <button
+      type="submit"
+      [disabled]="!consulta.trim() || escribiendo"
+      title="Enviar mensaje">
+      ➤
+    </button>
+  </form>
+
+  <footer class="chat-footer">
+    🐾 MICHI · Asistente local de proveedores
+  </footer>
+
+</div>
